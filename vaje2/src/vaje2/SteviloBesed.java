@@ -24,10 +24,8 @@ public class SteviloBesed {
 				word += ch;
 			}
 		}
-		if (word != "") {
-			cnt++;
-			out.write(word + "\n");
-		}
+		cnt++;
+		out.write(word + "\n");
 		System.out.println(cnt);
 		in.close();
 		out.close();
