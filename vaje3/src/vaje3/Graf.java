@@ -1,9 +1,12 @@
 package vaje3;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Graf {
 	private int stevecZaImenovanje;
@@ -12,7 +15,7 @@ public class Graf {
 	
 	public Graf() {
 		stevecZaImenovanje = 0;
-		tocke = new HashMap<String, Tocka>();
+		tocke = new TreeMap<String, Tocka>();
 	}
 	
 	public Tocka tocka(String ime) {
@@ -79,6 +82,16 @@ public class Graf {
 		return seznam;
 	}
 	
+	public void razporedi(float x, float y, float r) {
+		float phi = 0;
+		float dphi = (float) (2 * Math.PI / tocke.size());
+		for (Tocka tocka : tocke.values()) {
+			tocka.informacije.x = (float) (x + r * Math.cos(phi));
+			tocka.informacije.y = (float) (y + r * Math.sin(phi));
+			phi += dphi;
+		}
+	}
+	
 	public static Graf prazen(int n) {
 		Graf g = new Graf();
 		g.dodajTocke(n);
@@ -138,5 +151,15 @@ public class Graf {
 	
 	public boolean povezan() {
 		return steviloKomponent() == 1;
+	}
+	
+	public void shraniVDatoteko(FileWriter w) throws IOException {
+		for (Tocka t : tocke.values()) {
+			t.izpisiTocko(w);
+		}
+		w.write("***\n");
+		for (Tocka t : tocke.values()) {
+			t.izpisiPovezave(w);
+		}
 	}
 }
